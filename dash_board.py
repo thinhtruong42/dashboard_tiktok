@@ -675,17 +675,42 @@ if st.session_state.processing:
     total_settlement = Don_quyet_toan_unique["Total settlement amount"].sum()
     total_fees = Don_quyet_toan_unique["ABS_Total_Fees"].sum()
 
-    df_money = pd.DataFrame(
-        {
-            "Chỉ số": ["Tổng doanh thu", "Tổng quyết toán", "Tổng chi phí"],
-            "Số tiền": [total_revenue, total_settlement, total_fees],
-        }
-    )
-    fig2 = px.pie(
-        df_money, names="Chỉ số", values="Số tiền", title="💰 Cơ cấu tài chính"
-    )
-    st.plotly_chart(fig2, use_container_width=True)
+    st.markdown("<br><br>", unsafe_allow_html=True)
+    col1, col2, col3 = st.columns(3)
 
+    with col1:
+        st.markdown(
+            f"""
+            <div style="background-color:#e0f7fa; padding:20px; border-radius:10px; text-align:center; box-shadow:2px 2px 10px rgba(0,0,0,0.1);">
+                <div style="font-size:18px; color:#00796b; font-weight:bold;">💰 Tổng doanh thu</div>
+                <div style="font-size:26px; font-weight:bold; color:#004d40;">{total_revenue:,.0f} ₫</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    with col2:
+        st.markdown(
+            f"""
+            <div style="background-color:#fff3e0; padding:20px; border-radius:10px; text-align:center; box-shadow:2px 2px 10px rgba(0,0,0,0.1);">
+                <div style="font-size:18px; color:#ef6c00; font-weight:bold;">📥 Tổng quyết toán</div>
+                <div style="font-size:26px; font-weight:bold; color:#e65100;">{total_settlement:,.0f} ₫</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    with col3:
+        st.markdown(
+            f"""
+            <div style="background-color:#ffebee; padding:20px; border-radius:10px; text-align:center; box-shadow:2px 2px 10px rgba(0,0,0,0.1);">
+                <div style="font-size:18px; color:#c62828; font-weight:bold;">📤 Tổng chi phí</div>
+                <div style="font-size:26px; font-weight:bold; color:#b71c1c;">{total_fees:,.0f} ₫</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    st.markdown("<br><br>", unsafe_allow_html=True)
     # Biểu đồ 3: Doanh thu theo ngày
     if "Order settled time" in Don_quyet_toan_unique.columns:
         Don_quyet_toan_unique["Ngày"] = pd.to_datetime(
